@@ -1,5 +1,6 @@
 import { View, Text } from "react-native";
 import React from "react";
+import Icon from "../../components/Icon";
 
 export default function Home() {
   return (
@@ -11,7 +12,7 @@ export default function Home() {
         backgroundColor: "white",
       }}
     >
-      <Text>aaaaaaaaaa</Text>
+      <Icon familyName="AntDesign" name="API" />
     </View>
   );
 }
