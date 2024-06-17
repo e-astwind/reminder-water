@@ -9,30 +9,77 @@ import Icon from "../components/Icon";
 
 export default function MainRoutes() {
   const Stack = createNativeStackNavigator();
+
   return (
-    <NavigationContainer>
+    <NavigationContainer independent>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
           name="Home"
           component={Home}
           options={{
-            header() {
+            header({ navigation }) {
               return (
                 <Header
                   title="Nível de Hidratação"
                   leftIcon={
-                    <Icon familyName="MaterialCommunityIcons" name="waves" />
+                    <Icon
+                      familyName="MaterialCommunityIcons"
+                      name="waves"
+                      onPress={() => navigation.navigate("History")}
+                    />
                   }
                   rightIcon={
-                    <Icon familyName="Ionicons" name="notifications-outline" />
+                    <Icon
+                      familyName="Ionicons"
+                      name="settings-outline"
+                      onPress={() => navigation.navigate("Settings")}
+                    />
                   }
                 />
               );
             },
           }}
         />
-        <Stack.Screen name="Settings" component={Settings} />
-        <Stack.Screen name="History" component={History} />
+        <Stack.Screen
+          name="Settings"
+          component={Settings}
+          options={{
+            header({ navigation }) {
+              return (
+                <Header
+                  title="Configurações"
+                  leftIcon={
+                    <Icon
+                      familyName="Ionicons"
+                      name="arrow-back-outline"
+                      onPress={() => navigation.goBack()}
+                    />
+                  }
+                />
+              );
+            },
+          }}
+        />
+        <Stack.Screen
+          name="History"
+          component={History}
+          options={{
+            header({ navigation }) {
+              return (
+                <Header
+                  title="Histórico de Hidratação"
+                  leftIcon={
+                    <Icon
+                      familyName="Ionicons"
+                      name="arrow-back-outline"
+                      onPress={() => navigation.goBack()}
+                    />
+                  }
+                />
+              );
+            },
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
