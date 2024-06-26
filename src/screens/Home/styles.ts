@@ -38,6 +38,22 @@ const TargetText = styled.Text`
   color: ${({ theme }) => theme.secondaryText};
   font-size: 18px;
 `;
+const HistoryText = styled.Text`
+  color: ${({ theme }) => theme.text};
+  font-size: 18px;
+  font-weight: bold;
+`;
+const Separator = styled.View`
+  width: 1px;
+  height: 24px;
+  border-color: #000;
+  border-style: dotted;
+  border-width: 0.5px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  margin-left: 10px;
+  border-radius: 5px;
+`;
 
 export {
   Container,
@@ -47,4 +63,6 @@ export {
   HydrationLevelContainer,
   TargetText,
   RowContainer,
+  HistoryText,
+  Separator,
 };

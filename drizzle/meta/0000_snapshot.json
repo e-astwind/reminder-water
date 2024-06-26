@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "c2da26d1-c622-4143-af5c-018d4c2d6b6d",
+  "id": "227918dc-7037-4b1a-9567-0b9ae9394711",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "water_drink": {
@@ -9,9 +9,9 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
           "autoincrement": false
         },
         "drink_ml": {
@@ -23,7 +23,7 @@
         },
         "date": {
           "name": "date",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false

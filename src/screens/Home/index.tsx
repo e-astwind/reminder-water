@@ -4,15 +4,18 @@ import { colors } from "../../global/colors/colors";
 import {
   Container,
   CurrentLevelHydrationText,
+  HistoryText,
   HydrationLevelContainer,
   MaxLevelHydrationText,
   RowContainer,
+  Separator,
   TargetLevelHydrationContainer,
   TargetText,
 } from "./styles";
-import { Dimensions } from "react-native";
+import { Dimensions, FlatList } from "react-native";
 import WaterSelectDrinkScroll from "../../components/WaterSelectDrinkScroll";
 import { GlobalContext } from "../../contexts/GlobalContext";
+import HistoryCard from "../../components/HistoryCard";
 
 export default function Home() {
   const { width } = Dimensions.get("window");
@@ -41,16 +44,23 @@ export default function Home() {
         </TargetLevelHydrationContainer>
       </HydrationLevelContainer>
       <WaterSelectDrinkScroll />
-      {hydrationHistory?.map((drink, index) => (
-        <RowContainer key={index}>
-          <CurrentLevelHydrationText>
-            {drink.drink_ml}ml
-          </CurrentLevelHydrationText>
-          <MaxLevelHydrationText>
-            {new Date(drink.date).toLocaleDateString()}
-          </MaxLevelHydrationText>
-        </RowContainer>
-      ))}
+      <HistoryText>Histórico de hoje</HistoryText>
+      <FlatList
+        data={hydrationHistory}
+        keyExtractor={(item) => item.id.toString()}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item, index }) => (
+          <HistoryCard
+            key={index + item.id.toString()}
+            drink={{
+              date: item.date,
+              ml: item.drink_ml,
+              id: item.id.toString(),
+            }}
+          />
+        )}
+        ItemSeparatorComponent={() => <Separator />}
+      />
     </Container>
   );
 }

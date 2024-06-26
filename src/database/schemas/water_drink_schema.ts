@@ -1,7 +1,7 @@
 import { sqliteTable, integer, text } from "drizzle-orm/sqlite-core";
 
 export const waterDrink = sqliteTable("water_drink", {
-  id: integer("id"),
+  id: text("id").primaryKey(),
   drink_ml: integer("drink_ml"),
-  date: integer("date"),
+  date: text("date"),
 });

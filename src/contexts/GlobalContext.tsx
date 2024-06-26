@@ -29,10 +29,11 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const drinkWater = (drink: IDrink) => {
+    const isoDateString = new Date().toISOString();
     db.insert(waterDrink)
       .values({
-        id: parseInt(drink.id),
-        date: new Date().getTime(),
+        id: Math.random().toString(),
+        date: isoDateString,
         drink_ml: drink.ml,
       })
       .execute()
