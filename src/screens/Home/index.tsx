@@ -11,6 +11,7 @@ import {
   TargetText,
 } from "./styles";
 import { Dimensions } from "react-native";
+import WaterSelectDrinkScroll from "../../components/WaterSelectDrinkScroll";
 
 export default function Home() {
   const { width } = Dimensions.get("window");
@@ -39,6 +40,7 @@ export default function Home() {
           </RowContainer>
         </TargetLevelHydrationContainer>
       </HydrationLevelContainer>
+      <WaterSelectDrinkScroll />
     </Container>
   );
 }
