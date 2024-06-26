@@ -2,6 +2,7 @@ export interface IGlobalContextType {
   hydrationHistory: IHydrationHistory[] | null;
   currentLevelHydration: number;
   drinkWater: (drink: IDrink) => void;
+  deleteDrink: (id: string) => void;
 }
 
 export interface IHydrationHistory {

@@ -1,8 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
 import { db } from "../database/config";
 import { waterDrink } from "../database/schemas/water_drink_schema";
-import { ToastAndroid } from "react-native";
+import { LayoutAnimation, ToastAndroid } from "react-native";
 import { IGlobalContextType, IHydrationHistory } from "./types";
+import { eq } from "drizzle-orm";
 
 export const GlobalContext = createContext<IGlobalContextType>(
   {} as IGlobalContextType
@@ -43,13 +44,28 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
       });
   };
 
+  const deleteDrink = async (id: string) => {
+    try {
+      await db.delete(waterDrink).where(eq(waterDrink.id, id));
+      fetchHydrationHistory();
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    } catch (error) {
+      ToastAndroid.show("Erro ao deletar a bebida", 2000);
+    }
+  };
+
   useEffect(() => {
     fetchHydrationHistory();
   }, []);
 
   return (
     <GlobalContext.Provider
-      value={{ currentLevelHydration, hydrationHistory, drinkWater }}
+      value={{
+        currentLevelHydration,
+        hydrationHistory,
+        drinkWater,
+        deleteDrink,
+      }}
     >
       {children}
     </GlobalContext.Provider>

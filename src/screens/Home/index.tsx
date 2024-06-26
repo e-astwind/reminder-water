@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { forwardRef, useContext, useEffect } from "react";
 import HalfMoonProgressBar from "../../components/HalfMoonProgressBar";
 import { colors } from "../../global/colors/colors";
 import {
@@ -12,7 +12,8 @@ import {
   TargetLevelHydrationContainer,
   TargetText,
 } from "./styles";
-import { Dimensions, FlatList } from "react-native";
+import Animated, { FadeOut } from "react-native-reanimated";
+import { Dimensions, FlatList, UIManager } from "react-native";
 import WaterSelectDrinkScroll from "../../components/WaterSelectDrinkScroll";
 import { GlobalContext } from "../../contexts/GlobalContext";
 import HistoryCard from "../../components/HistoryCard";
@@ -20,8 +21,12 @@ import HistoryCard from "../../components/HistoryCard";
 export default function Home() {
   const { width } = Dimensions.get("window");
   const { currentLevelHydration, hydrationHistory } = useContext(GlobalContext);
-  const maxLevelHydration = 100;
+  const maxLevelHydration = 2500;
 
+  useEffect(() => {
+    UIManager.setLayoutAnimationEnabledExperimental &&
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+  }, []);
   return (
     <Container>
       <HydrationLevelContainer>
@@ -45,10 +50,9 @@ export default function Home() {
       </HydrationLevelContainer>
       <WaterSelectDrinkScroll />
       <HistoryText>Histórico de hoje</HistoryText>
-      <FlatList
+      <Animated.FlatList
         data={hydrationHistory}
         keyExtractor={(item) => item.id.toString()}
-        showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (
           <HistoryCard
             key={index + item.id.toString()}
@@ -59,6 +63,7 @@ export default function Home() {
             }}
           />
         )}
+        showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={() => <Separator />}
       />
     </Container>
