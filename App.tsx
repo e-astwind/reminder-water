@@ -7,6 +7,7 @@ import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import migrations from "./drizzle/migrations";
 import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
 import { DATA_BASE_NAME, db, expoDB } from "./src/database/config";
+import { GlobalProvider } from "./src/contexts/GlobalContext";
 
 export default function App() {
   const { success } = useMigrations(db, migrations);
@@ -20,7 +21,9 @@ export default function App() {
       <StatusBar barStyle="light-content" backgroundColor="#121015" />
       <SQLiteProvider databaseName={DATA_BASE_NAME}>
         <ThemeProvider theme={colors}>
-          <MainRoutes />
+          <GlobalProvider>
+            <MainRoutes />
+          </GlobalProvider>
         </ThemeProvider>
       </SQLiteProvider>
     </>

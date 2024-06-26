@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import HalfMoonProgressBar from "../../components/HalfMoonProgressBar";
 import { colors } from "../../global/colors/colors";
 import {
@@ -12,45 +12,12 @@ import {
 } from "./styles";
 import { Dimensions } from "react-native";
 import WaterSelectDrinkScroll from "../../components/WaterSelectDrinkScroll";
-import { waterDrink } from "../../database/schemas/water_drink_schema";
-import { db } from "../../database/config";
+import { GlobalContext } from "../../contexts/GlobalContext";
 
 export default function Home() {
   const { width } = Dimensions.get("window");
-  const [hydrationHistory, setHydrationHistory] = useState<
-    | {
-        id: number;
-        date: number;
-        drink_ml: number;
-      }[]
-    | null
-  >(null);
-  const [currentLevelHydration, setCurrentLevelHydration] = useState(0);
-
+  const { currentLevelHydration, hydrationHistory } = useContext(GlobalContext);
   const maxLevelHydration = 100;
-
-  const fetchHydrationHistory = async () => {
-    try {
-      const hydrationHistory = await db.select().from(waterDrink);
-      setHydrationHistory(
-        hydrationHistory as {
-          id: number;
-          date: number;
-          drink_ml: number;
-        }[]
-      );
-      const currentLevelHydration = hydrationHistory.reduce(
-        (acc, drink) => acc + drink?.drink_ml!,
-        0
-      );
-      setCurrentLevelHydration(currentLevelHydration);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    fetchHydrationHistory();
-  }, []);
 
   return (
     <Container>
