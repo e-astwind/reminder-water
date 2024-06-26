@@ -4,6 +4,9 @@ const Container = styled.View`
   background-color: ${({ theme }) => theme.secondary};
   flex: 1;
   padding-top: 48px;
+  padding-left: 24px;
+  padding-right: 24px;
+  gap: 24px;
 `;
 
 const HydrationLevelContainer = styled.View`

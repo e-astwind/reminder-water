@@ -1,23 +1,32 @@
-import { Text } from "react-native";
 import React, { useState } from "react";
 import { DrinkContainer, DrinkText } from "./styles";
 import Icon from "../Icon";
 import { useTheme } from "styled-components/native";
+import { waterDrink } from "../../database/schemas/water_drink_schema";
+import { db } from "../../database/config";
+import { ToastAndroid } from "react-native";
 
 export default function SelectDrink({ drinks }: ISelectDrinkProps) {
   const theme = useTheme();
   const [drinkSelectedId, setDrinkSelectedId] = useState<string>("1");
 
-  const drinkWater = (drinkId: string) => {
-    console.log(drinkId);
+  const drinkWater = (drink: IDrink) => {
+    db.insert(waterDrink)
+      .values({
+        id: parseInt(drink.id),
+        date: new Date().getTime(),
+        drink_ml: drink.ml,
+      })
+      .execute()
+      .then(() => ToastAndroid.show("Água bebida com sucesso", 2000));
   };
 
-  const selectDrink = (drinkId: string) => {
-    if (drinkId === drinkSelectedId) {
-      drinkWater(drinkId);
+  const selectDrink = (drink: IDrink) => {
+    if (drink.id === drinkSelectedId) {
+      drinkWater(drink);
       return;
     }
-    setDrinkSelectedId(drinkId);
+    setDrinkSelectedId(drink.id);
   };
 
   return (
@@ -27,7 +36,7 @@ export default function SelectDrink({ drinks }: ISelectDrinkProps) {
         return (
           <DrinkContainer
             selected={isSelected}
-            onPress={() => selectDrink(drink.id)}
+            onPress={() => selectDrink(drink)}
             key={index}
           >
             <Icon

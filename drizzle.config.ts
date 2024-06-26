@@ -4,4 +4,7 @@ export default {
   out: "./drizzle",
   dialect: "sqlite",
   driver: "expo",
-} satisfies Config;
+  dbCredentials: {
+    url: "waterApp.db",
+  },
+};

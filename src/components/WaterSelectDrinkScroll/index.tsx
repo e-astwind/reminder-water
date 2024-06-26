@@ -3,9 +3,11 @@ import { Container, ContainerScroll } from "./styles";
 import SelectDrink from "../SelectDrink";
 import Icon from "../Icon";
 import { ScrollView } from "react-native";
+import { useTheme } from "styled-components/native";
 
 export default function WaterSelectDrinkScroll() {
   const scrollViewRef = useRef<ScrollView>(null);
+  const theme = useTheme();
 
   const onScroll = () => {
     const moveToRight = () => {
@@ -30,6 +32,7 @@ export default function WaterSelectDrinkScroll() {
         size={24}
         familyName="Ionicons"
         onPress={onScroll().moveToLeft}
+        color={theme.secondaryText}
       />
       <ContainerScroll
         ref={scrollViewRef}
@@ -51,6 +54,7 @@ export default function WaterSelectDrinkScroll() {
         size={24}
         familyName="Ionicons"
         onPress={onScroll().moveToRight}
+        color={theme.secondaryText}
       />
     </Container>
   );
