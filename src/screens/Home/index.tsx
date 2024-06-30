@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import HalfMoonProgressBar from "../../components/HalfMoonProgressBar";
 import { colors } from "../../global/colors/colors";
 import {
@@ -12,17 +12,18 @@ import {
   TargetLevelHydrationContainer,
   TargetText,
 } from "./styles";
-import Animated, { FadeOut } from "react-native-reanimated";
-import { Dimensions, FlatList, UIManager } from "react-native";
+import Animated from "react-native-reanimated";
+import { Dimensions, UIManager, View } from "react-native";
 import WaterSelectDrinkScroll from "../../components/WaterSelectDrinkScroll";
 import { GlobalContext } from "../../contexts/GlobalContext";
 import HistoryCard from "../../components/HistoryCard";
+import LottieView from "lottie-react-native";
 
 export default function Home() {
   const { width } = Dimensions.get("window");
   const { currentLevelHydration, hydrationHistory } = useContext(GlobalContext);
   const maxLevelHydration = 2500;
-
+  const animation = useRef(null);
   useEffect(() => {
     UIManager.setLayoutAnimationEnabledExperimental &&
       UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -62,6 +63,29 @@ export default function Home() {
               id: item.id.toString(),
             }}
           />
+        )}
+        ListEmptyComponent={() => (
+          <View
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              flex: 1,
+            }}
+          >
+            <LottieView
+              autoPlay
+              resizeMode="center"
+              speed={1.5}
+              ref={animation}
+              style={{
+                width: 980,
+                height: 260,
+                backgroundColor: "transparent",
+              }}
+              source={require("../../assets/images/water.json")}
+            />
+            <TargetText> Você ainda não bebeu água hoje! </TargetText>
+          </View>
         )}
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={() => <Separator />}
