@@ -4,12 +4,14 @@ import { waterDrink } from "../database/schemas/water_drink_schema";
 import { LayoutAnimation, ToastAndroid } from "react-native";
 import { IGlobalContextType, IHydrationHistory } from "./types";
 import { eq } from "drizzle-orm";
+import { usePlaySound } from "../hooks/usePlaySound";
 
 export const GlobalContext = createContext<IGlobalContextType>(
   {} as IGlobalContextType
 );
 
 export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
+  const sound = usePlaySound();
   const [hydrationHistory, setHydrationHistory] = useState<
     IHydrationHistory[] | null
   >(null);
@@ -39,6 +41,9 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
       })
       .execute()
       .then(() => {
+        sound.then((sound) => {
+          sound.playSound();
+        });
         fetchHydrationHistory();
         ToastAndroid.show("Água bebida com sucesso", 2000);
       });
