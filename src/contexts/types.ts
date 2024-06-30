@@ -4,6 +4,9 @@ export interface IGlobalContextType {
   drinkWater: (drink: IDrink) => void;
   deleteDrink: (id: string) => void;
 }
+export interface IFetchHydrationHistory {
+  filter?: "today" | "week" | "month" | "year";
+}
 
 export interface IHydrationHistory {
   id: string;

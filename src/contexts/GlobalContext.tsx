@@ -2,8 +2,12 @@ import React, { createContext, useState, useEffect } from "react";
 import { db } from "../database/config";
 import { waterDrink } from "../database/schemas/water_drink_schema";
 import { LayoutAnimation, ToastAndroid } from "react-native";
-import { IGlobalContextType, IHydrationHistory } from "./types";
-import { eq } from "drizzle-orm";
+import {
+  IFetchHydrationHistory,
+  IGlobalContextType,
+  IHydrationHistory,
+} from "./types";
+import { eq, sql } from "drizzle-orm";
 import { usePlaySound } from "../hooks/usePlaySound";
 
 export const GlobalContext = createContext<IGlobalContextType>(
@@ -17,10 +21,25 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   >(null);
   const [currentLevelHydration, setCurrentLevelHydration] = useState(0);
 
-  const fetchHydrationHistory = async () => {
+  const fetchHydrationHistory = async ({
+    filter = "today",
+  }: IFetchHydrationHistory) => {
+    const whereClause = {
+      today: sql`date(date) = date('now')`,
+      week: sql`date(date) >= date('now', 'weekday 0', '-7 days')`,
+      month: sql`strftime('%Y-%m', date) = strftime('%Y-%m', 'now')`,
+      year: sql`1=1`,
+    };
+
     try {
-      const hydrationHistory = await db.select().from(waterDrink);
+      const hydrationHistory = await db
+        .select()
+        .from(waterDrink)
+        .where(whereClause[filter])
+        .execute();
+
       setHydrationHistory(hydrationHistory as IHydrationHistory[]);
+
       const currentLevelHydration = hydrationHistory.reduce(
         (acc, drink) => acc + drink?.drink_ml!,
         0
@@ -44,7 +63,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
         sound.then((sound) => {
           sound.playSound();
         });
-        fetchHydrationHistory();
+        fetchHydrationHistory({});
         ToastAndroid.show("Água bebida com sucesso", 2000);
       });
   };
@@ -52,7 +71,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const deleteDrink = async (id: string) => {
     try {
       await db.delete(waterDrink).where(eq(waterDrink.id, id));
-      fetchHydrationHistory();
+      fetchHydrationHistory({});
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     } catch (error) {
       ToastAndroid.show("Erro ao deletar a bebida", 2000);
@@ -60,7 +79,7 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    fetchHydrationHistory();
+    fetchHydrationHistory({ filter: "today" });
   }, []);
 
   return (
