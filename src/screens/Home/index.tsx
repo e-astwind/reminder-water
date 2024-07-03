@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from "react";
-import HalfMoonProgressBar from "../../components/HalfMoonProgressBar";
+import CircularProgressBar from "../../components/CircularProgressBar";
 import { colors } from "../../global/colors/colors";
 import {
   Container,
@@ -31,14 +31,14 @@ export default function Home() {
   return (
     <Container>
       <HydrationLevelContainer>
-        <HalfMoonProgressBar
+        <CircularProgressBar
           color={colors.primary}
           radius={width / 2.8}
           currentValue={currentLevelHydration}
           maxValue={maxLevelHydration}
         />
         <TargetLevelHydrationContainer>
-          <TargetText>Objetivo</TargetText>
+          <TargetText>Objetivo do dia</TargetText>
           <RowContainer>
             <CurrentLevelHydrationText>
               {currentLevelHydration}

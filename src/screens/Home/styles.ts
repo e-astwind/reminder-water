@@ -27,7 +27,6 @@ const TargetLevelHydrationContainer = styled.View`
   justify-content: center;
   align-items: center;
   position: absolute;
-  bottom: 18px;
 `;
 const RowContainer = styled.View`
   flex-direction: row;
