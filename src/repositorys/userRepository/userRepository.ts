@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import { db } from "../../database/config";
 import { user as userSchema } from "../../database/schemas/user_schema";
 import { IUser } from "./types";
@@ -15,10 +16,9 @@ const userRepository = () => {
     const [user] = await db.select().from(userSchema).execute();
     return user;
   };
-  const updateUser = async (user: IUser) => {
+  const updateUser = async (user: Partial<IUser>) => {
     try {
-      const updateUser = db.update(userSchema).set(user).execute();
-      console.log(updateUser, "User updated");
+      await db.update(userSchema).set(user).execute();
     } catch (error) {
       console.log(error, "Error to update user");
     }

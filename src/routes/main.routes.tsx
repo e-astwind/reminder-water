@@ -6,6 +6,7 @@ import Settings from "../screens/Settings";
 import History from "../screens/History";
 import Header from "../components/Header";
 import Icon from "../components/Icon";
+import GenderMetricSetting from "../screens/SettingsMetricsScreens/GenderMetricSetting";
 
 export default function MainRoutes() {
   const Stack = createNativeStackNavigator();
@@ -79,6 +80,26 @@ export default function MainRoutes() {
               );
             },
           }}
+        />
+        <Stack.Screen
+          options={{
+            header({ navigation }) {
+              return (
+                <Header
+                  title="Suas informações"
+                  leftIcon={
+                    <Icon
+                      familyName="Ionicons"
+                      name="arrow-back-outline"
+                      onPress={() => navigation.goBack()}
+                    />
+                  }
+                />
+              );
+            },
+          }}
+          name="GenderMetricSetting"
+          component={GenderMetricSetting}
         />
       </Stack.Navigator>
     </NavigationContainer>
