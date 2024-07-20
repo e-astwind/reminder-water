@@ -9,15 +9,19 @@ const Container = styled.View`
   padding-right: 24px;
   gap: 28px;
 `;
-const MetricsContainerGender = styled.TouchableOpacity`
+const MetricsContainer = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   gap: 12px;
 `;
-const MetricGenderLabel = styled.Text`
+const MetricLabel = styled.Text`
   color: ${({ theme }) => theme.text};
   font-size: 18px;
   font-weight: bold;
 `;
+const AlignContainer = styled.View`
+  align-items: center;
+  gap: 12px;
+`;
 
-export { Container, MetricsContainerGender, MetricGenderLabel };
+export { Container, MetricsContainer, MetricLabel, AlignContainer };

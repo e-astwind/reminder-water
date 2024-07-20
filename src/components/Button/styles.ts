@@ -10,7 +10,7 @@ const Container = styled.TouchableOpacity<IButtonProps>`
     variant === "primary" ? theme.primary : "transparent"};
   border: 1px solid ${({ theme }) => theme.primary};
   padding: 16px 68px;
-
+  width: 100%;
   border-radius: 8px;
   align-items: center;
   justify-content: center;

@@ -6,7 +6,7 @@ import Settings from "../screens/Settings";
 import History from "../screens/History";
 import Header from "../components/Header";
 import Icon from "../components/Icon";
-import GenderMetricSetting from "../screens/SettingsMetricsScreens/GenderMetricSetting";
+import GenderMetricSetting from "../screens/MetricSetting";
 
 export default function MainRoutes() {
   const Stack = createNativeStackNavigator();
